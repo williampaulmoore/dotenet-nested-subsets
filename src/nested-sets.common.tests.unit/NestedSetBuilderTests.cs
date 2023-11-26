@@ -1,4 +1,5 @@
 using FluentAssertions;
+using FluentAssertions.Execution;
 using nested_sets.common;
 
 
@@ -48,7 +49,10 @@ public class NestedSetBuilderTests
         var enumerator = result.GetEnumerator();
 
         // assert
-        enumerator.CurrentTree.Should().BeEquivalentTo(new int[] { 1, 2, 3, 4, 5, 6 });
+        using(new AssertionScope()) {
+            enumerator.CurrentTree.Should().BeEquivalentTo(new int[] { 1, 2, 3, 4, 5, 6 });
+            enumerator.eot.Should().BeTrue();
+        }
     }
 
 }

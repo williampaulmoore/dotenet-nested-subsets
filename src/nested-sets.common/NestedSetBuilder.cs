@@ -93,7 +93,7 @@ public class NestedSetEnumerator {
     /// <summary>
     /// Identifies if the current node is the last node in the tree
     /// </summary>
-    public bool eot => idx == numberOfElements - 1;
+    public bool eot => idx >= numberOfElements;
 
 }
 
