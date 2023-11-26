@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nested-sets.common", "nested-sets.common\nested-sets.common.csproj", "{92523F04-7921-4C74-B3DB-21E7A1C61F06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nested-sets.common.tests.unit", "nested-sets.common.tests.unit\nested-sets.common.tests.unit.csproj", "{B431B742-4023-4133-A247-960F568FFCA9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92523F04-7921-4C74-B3DB-21E7A1C61F06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92523F04-7921-4C74-B3DB-21E7A1C61F06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92523F04-7921-4C74-B3DB-21E7A1C61F06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92523F04-7921-4C74-B3DB-21E7A1C61F06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B431B742-4023-4133-A247-960F568FFCA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B431B742-4023-4133-A247-960F568FFCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B431B742-4023-4133-A247-960F568FFCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B431B742-4023-4133-A247-960F568FFCA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
