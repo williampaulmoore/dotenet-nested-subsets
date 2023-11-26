@@ -79,4 +79,25 @@ public class NestedSetBuilderTests
     }
 
 
+    [Fact]
+    public void Can_traverse_a_sub_tree()
+    {
+        // arrange
+        var sut = new NestedSetBuilder();
+
+
+        // act
+        var result = sut.Build(testData);
+        var enumerator = result.GetEnumerator();
+
+        enumerator.Next(); // move to the first child (first subtree)
+
+
+        // assert
+        using(new AssertionScope()) {
+            enumerator.CurrentTree.Should().BeEquivalentTo(new int[] { 2, 3, 4 });
+            enumerator.Eot.Should().BeFalse();
+            enumerator.Value.Should().Be(5);
+        }
+    }
 }
