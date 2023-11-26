@@ -41,34 +41,6 @@ public class NestedSetEnumerator {
     private int idx = 0;
 
 
-    private IEnumerable<int> GetPath(int id) {
-
-        yield return elements[idx].Id;
-
-        // last element in the array
-        if (idx == numberOfElements - 1) {
-            yield break;
-        }
-
-        var root = elements[idx].Right;
-        idx++;
-
-        //while (elements[idx].Left < root && idx < numberOfElements) {
-        //    yield return elements[idx].Id;
-        //    idx++;
-        //}
-
-        while(true) {
-            if (elements[idx].Left < root && idx < numberOfElements) {
-                yield return elements[idx].Id;
-                idx++;
-            }
-            else {
-                break;
-            }
-        }
-    }
-
     public NestedSetEnumerator
             ( SetNode[] elements
             , int numberOfElements) {
