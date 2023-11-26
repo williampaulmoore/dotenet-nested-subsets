@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nested-sets.common", "neste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nested-sets.common.tests.unit", "nested-sets.common.tests.unit\nested-sets.common.tests.unit.csproj", "{B431B742-4023-4133-A247-960F568FFCA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nested-sets.common.benchmarks", "nested-sets.common.benchmarks\nested-sets.common.benchmarks.csproj", "{CFD23D6E-DB9D-4894-B28E-157032569D43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{B431B742-4023-4133-A247-960F568FFCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B431B742-4023-4133-A247-960F568FFCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B431B742-4023-4133-A247-960F568FFCA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD23D6E-DB9D-4894-B28E-157032569D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD23D6E-DB9D-4894-B28E-157032569D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD23D6E-DB9D-4894-B28E-157032569D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD23D6E-DB9D-4894-B28E-157032569D43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
