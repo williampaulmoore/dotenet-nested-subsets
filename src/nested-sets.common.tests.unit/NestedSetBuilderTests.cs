@@ -45,9 +45,10 @@ public class NestedSetBuilderTests
 
         // act
         var result = sut.Build(testData);
-        var state = result.State();
+        var enumerator = result.GetEnumerator();
 
         // assert
-        result.CurrentTree.Should().BeEquivalentTo(new int[] { 1, 2, 3, 4, 5, 6 });
+        enumerator.CurrentTree.Should().BeEquivalentTo(new int[] { 1, 2, 3, 4, 5, 6 });
     }
+
 }

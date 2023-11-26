@@ -28,17 +28,18 @@ public struct SetNode {
     public int Right { get; set; }
 }
 
-
 /// <summary>
-/// Enumerable respresentation of a tree as a nested set
+/// Enumerator for a nested set
 /// </summary>
-public class NestedSet {
+/// <remarks>
+/// Allow multiple consumers to enumerate the same nested set
+/// </remarks>
+public class NestedSetEnumerator {
 
     private readonly SetNode[] elements;
     private readonly int numberOfElements;
     private int idx = 0;
 
-    // need to deal with the case where the tree is empty
 
     private IEnumerable<int> GetPath(int id) {
 
@@ -58,6 +59,56 @@ public class NestedSet {
         }
     }
 
+    public NestedSetEnumerator
+            ( SetNode[] elements
+            , int numberOfElements) {
+
+        this.elements = elements;
+        this.numberOfElements = numberOfElements;
+    }
+
+    /// <summary>
+    /// Move to the next entry in the tree
+    /// </summary>
+    public int Value => elements[idx].Id;
+
+    /// <summary>
+    /// Gets the current tree, all elements reachable from the current node
+    /// </summary>
+    /// <remarks>
+    /// Updates the enumerator to point to the node
+    /// that is next in the tree ( next sibling,
+    /// parent or terminated )
+    ///
+    /// i.e. the enmuerator (next,value methods) have skipped the
+    /// the nodes in the current tree
+    /// </remarks>
+    public IEnumerable<int> CurrentTree => GetPath(elements[idx].Id);
+
+    /// <summary>
+    /// Move to the next entry in the tree
+    /// </summary>
+    public void next() => idx++;
+
+    /// <summary>
+    /// Identifies if the current node is the last node in the tree
+    /// </summary>
+    public bool eot => idx == numberOfElements - 1;
+
+}
+
+
+
+/// <summary>
+/// Enumerable respresentation of a tree as a nested set
+/// </summary>
+public class NestedSet {
+
+    private readonly SetNode[] elements;
+    private readonly int numberOfElements;
+    private int idx = 0;
+
+    // need to deal with the case where the tree is empty
 
     public NestedSet
             ( SetNode[] elements
@@ -65,6 +116,15 @@ public class NestedSet {
 
         this.elements = elements;
         this.numberOfElements = numberOfElements;
+    }
+
+
+    public NestedSetEnumerator GetEnumerator() {
+
+        return new NestedSetEnumerator(
+            elements,
+            numberOfElements
+        );
     }
 
 
@@ -79,28 +139,6 @@ public class NestedSet {
 
         return (ms.ToArray(), numberOfElements);
     }
-
-
-    /// <summary>
-    /// Move to the next entry in the tree
-    /// </summary>
-    public int Value => elements[idx].Id;
-
-    /// <summary>
-    /// Gets the current tree, all elements reachable from the current nod
-    /// </summary>
-    public IEnumerable<int> CurrentTree => GetPath(elements[idx].Id);
-
-    /// <summary>
-    /// Move to the next entry in the tree
-    /// </summary>
-    public void next() => idx++;
-
-    /// <summary>
-    /// Identifies if the current node is the last node in the tree
-    /// </summary>
-    public bool eot => idx == numberOfElements - 1;
-
 }
 
 public class NestedSetBuilder {
