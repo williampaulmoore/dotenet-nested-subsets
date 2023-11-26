@@ -88,12 +88,12 @@ public class NestedSetEnumerator {
     /// <summary>
     /// Move to the next entry in the tree
     /// </summary>
-    public void next() => idx++;
+    public void Next() => idx++;
 
     /// <summary>
     /// Identifies if the current node is the last node in the tree
     /// </summary>
-    public bool eot => idx >= numberOfElements;
+    public bool Eot => idx >= numberOfElements;
 
 }
 

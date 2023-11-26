@@ -51,8 +51,32 @@ public class NestedSetBuilderTests
         // assert
         using(new AssertionScope()) {
             enumerator.CurrentTree.Should().BeEquivalentTo(new int[] { 1, 2, 3, 4, 5, 6 });
-            enumerator.eot.Should().BeTrue();
+            enumerator.Eot.Should().BeTrue();
         }
     }
+
+
+    [Fact]
+    public void Can_travers_the_full_path_using_next()
+    {
+        // arrange
+        var sut = new NestedSetBuilder();
+
+
+        // act
+        var result = sut.Build(testData);
+        var enumerator = result.GetEnumerator();
+
+        var members = new List<int>();
+        while(!enumerator.Eot) {
+
+            members.Add(enumerator.Value);
+            enumerator.Next();
+        }
+
+        // assert
+        members.Should().BeEquivalentTo(new int[] { 1, 2, 3, 4, 5, 6 });
+    }
+
 
 }
