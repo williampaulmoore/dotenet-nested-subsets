@@ -48,9 +48,18 @@ public class NestedSetBuilderTests
         var result = sut.Build(testData);
         var enumerator = result.GetEnumerator();
 
+        var tree = new List<int>();
+        enumerator.GetSubTree(tree.Add);
+
+
         // assert
         using(new AssertionScope()) {
-            enumerator.CurrentTree.Should().BeEquivalentTo(new int[] { 1, 2, 3, 4, 5, 6 });
+
+            tree.Should().BeEquivalentTo(new int[] { 1, 2, 3, 4, 5, 6 });
+            enumerator.Eot.Should().BeFalse();
+            // It remains on the last node and you have to advance
+            enumerator.Value.Should().Be(6);
+            enumerator.Next();
             enumerator.Eot.Should().BeTrue();
         }
     }
@@ -92,12 +101,79 @@ public class NestedSetBuilderTests
 
         enumerator.Next(); // move to the first child (first subtree)
 
+        var firstSubTree = new List<int>();
+        enumerator.GetSubTree(firstSubTree.Add); // get the subtree
 
         // assert
         using(new AssertionScope()) {
-            enumerator.CurrentTree.Should().BeEquivalentTo(new int[] { 2, 3, 4 });
-            enumerator.Eot.Should().BeFalse();
+            firstSubTree.Should().BeEquivalentTo(new int[] { 2, 3, 4 });
+            enumerator.Next();
             enumerator.Value.Should().Be(5);
         }
     }
+
+
+    [Fact]
+    public void Can_traverse_multiple_sub_trees()
+    {
+        // arrange
+        var sut = new NestedSetBuilder();
+
+
+        // act
+        var result = sut.Build(testData);
+        var enumerator = result.GetEnumerator();
+
+        var firstSubTree  = new List<int>();
+        var secondSubTree = new List<int>();
+
+        enumerator.Next(); // move to the first child (first subtree)
+        enumerator.GetSubTree(firstSubTree.Add);
+
+        enumerator.Next(); // move past then last node in the first subtree
+        enumerator.GetSubTree(secondSubTree.Add);
+
+
+        // assert
+        using(new AssertionScope()) {
+            firstSubTree.Should().BeEquivalentTo(new int[] { 2, 3, 4 });
+            secondSubTree.Should().BeEquivalentTo(new int[] { 5, 6 });
+        }
+    }
+
+
+    [Fact]
+    public void Can_traverse_combining_next_and_current_tree()
+    {
+        // arrange
+        var sut = new NestedSetBuilder();
+
+
+        // act
+        var result = sut.Build(testData);
+        var enumerator = result.GetEnumerator();
+
+        var nextNodes     = new List<int>();
+        var firstSubTree  = new List<int>();
+        var secondSubTree = new List<int>();
+
+        while(!enumerator.Eot) {
+
+            switch (enumerator.Value) {
+                case 2 : enumerator.GetSubTree(firstSubTree.Add);  break;
+                case 6 : enumerator.GetSubTree(secondSubTree.Add); break;
+                default: nextNodes.Add(enumerator.Value);      break;
+            };
+            enumerator.Next();
+        }
+
+
+        // assert
+        using(new AssertionScope()) {
+            nextNodes.Should().BeEquivalentTo(new int[] { 1, 5 });
+            firstSubTree.Should().BeEquivalentTo(new int[] { 2, 3, 4 });
+            secondSubTree.Should().BeEquivalentTo(new int[] { 6 });
+        }
+    }
+
 }

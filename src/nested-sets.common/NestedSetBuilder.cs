@@ -53,9 +53,19 @@ public class NestedSetEnumerator {
         var root = elements[idx].Right;
         idx++;
 
-        while (elements[idx].Left < root && idx < numberOfElements) {
-            yield return elements[idx].Id;
-            idx++;
+        //while (elements[idx].Left < root && idx < numberOfElements) {
+        //    yield return elements[idx].Id;
+        //    idx++;
+        //}
+
+        while(true) {
+            if (elements[idx].Left < root && idx < numberOfElements) {
+                yield return elements[idx].Id;
+                idx++;
+            }
+            else {
+                break;
+            }
         }
     }
 
@@ -77,13 +87,43 @@ public class NestedSetEnumerator {
     /// </summary>
     /// <remarks>
     /// Updates the enumerator to point to the node
-    /// that is next in the tree ( next sibling,
+    /// that is the last node in the subtree ( next sibling,
     /// parent or terminated )
     ///
-    /// i.e. the enmuerator (next,value methods) have skipped the
-    /// the nodes in the current tree
+    /// This is to allow for mixing value checks and getting
+    /// tree with in the same loop
+    ///
+    /// e.g.
+    ///
+    /// while(!enumerator.Eot) {
+    ///
+    ///     switch (enumerator.Value) {
+    ///         case 2 : enumerator.GetSubTree(selectedNodes.Add);  break;
+    ///         case 6 : enumerator.GetSubTree(selectedNode.Add); break;
+    ///     };
+    ///     enumerator.Next();
+    /// }
+    ///
     /// </remarks>
-    public IEnumerable<int> CurrentTree => GetPath(elements[idx].Id);
+    public void GetSubTree(Action<int> addSubTreeNode) {
+        addSubTreeNode(Value);
+        var root = elements[idx];
+
+        while(true) {
+
+           var lastNodeInSubTree
+               = idx == numberOfElements - 1               // Is last node in the entire tree
+               || elements[idx+1].Left > root.Right;       // The next element is not a child of the root
+
+
+            if(lastNodeInSubTree) {
+                break;
+            }
+
+            Next();
+            addSubTreeNode(Value);
+        }
+    }
 
     /// <summary>
     /// Move to the next entry in the tree
@@ -94,7 +134,6 @@ public class NestedSetEnumerator {
     /// Identifies if the current node is the last node in the tree
     /// </summary>
     public bool Eot => idx >= numberOfElements;
-
 }
 
 
@@ -128,12 +167,12 @@ public class NestedSet {
     }
 
 
-    public (int[], int) State() {
-        var ms = new List<int>();
+    public (SetNode[], int) State() {
+        var ms = new List<SetNode>();
         var idx = 0;
 
         while(idx < numberOfElements) {
-            ms.Add(elements[idx].Id);
+            ms.Add(elements[idx]);
             idx++;
         }
 
@@ -181,7 +220,7 @@ public class NestedSetBuilder {
             foreach (var child in root.Children) {
                 PopulateArray(child);
 
-                Console.WriteLine($"ID: {child.Id}");
+                //Console.WriteLine($"ID: {child.Id}");
             }
 
             // now the childern have been added the right value can be set
@@ -201,12 +240,12 @@ public class NestedSetBuilder {
 
             PopulateArray(root);
 
-            Console.WriteLine($"Number of elements: {arrayIdx}");
+            //Console.WriteLine($"Number of elements: {arrayIdx}");
 
             var idx = 0;
 
             while(idx<arrayIdx) {
-                Console.WriteLine($"Id: {nestedSet[idx].Id}");
+                //Console.WriteLine($"Id: {nestedSet[idx].Id}");
                 idx++;
             }
 
